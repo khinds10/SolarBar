@@ -11,10 +11,10 @@ import RPi.GPIO as GPIO
 # setup alarm on / off LED
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-GPIO.setup(18,GPIO.OUT)
+GPIO.setup(16,GPIO.OUT)
 
 # 7 Segment Clock on i2c on address 0x70
-segment = SevenSegment.SevenSegment(address=0x70)
+segment = SevenSegment.SevenSegment(address=0x71)
 
 # initialize the display, must be called once before using the display.
 segment.begin()
@@ -24,9 +24,41 @@ segment.set_colon(True)
 # application defaults
 sunriseTimeHour = 7
 sunriseTimeMin = 0
-alarmOn = True
-lightOn = False
+alarmOn = 'False'
+lightOn = 'False'
 
+def getJSONFromDataFile(fileName):
+    """get JSON contents from file in question"""
+    try:
+        with open(fileName) as locationFile:    
+            return json.load(locationFile)
+    except (Exception):
+        return ""
+
+def toggleAlarmOnLight(alarmOn):
+    """toggle alarm on light"""
+    print alarmOn
+    if alarmOn == 'True':
+        GPIO.output(16,GPIO.HIGH)
+    else: 
+        GPIO.output(16,GPIO.LOW)
+
+def saveAlarmTime(hour, minute):
+    """save the hour and minutes the sunrise alarm is set to"""
+    f = file('alarm.data', "w")
+    alarmTime = [hour, minute]
+    f.write(str(json.dumps(alarmTime)))
+
+def saveAlarmOn(alarmOn):
+    """save if the alarm is turned on or off"""
+    f = file('alarmSet.data', "w")
+    f.write(str(json.dumps(alarmOn)))
+    
+def saveLightOn(lightOn):
+    """save if the light is turned on or off"""
+    f = file('lightOn.data', "w")
+    f.write(str(json.dumps(lightOn)))
+    
 def setDisplay(hour, minute):
     """set 7 segment display with hour and minute"""
     if (hour > 12):
@@ -39,8 +71,14 @@ def setDisplay(hour, minute):
     segment.write_display()
 
 # run script, check for button presses
+alarm = getJSONFromDataFile('alarm.data')
+alarmOn = getJSONFromDataFile('alarmSet.data')
+toggleAlarmOnLight(alarmOn)
+setDisplay(alarm[0], alarm[1])
 while True:
     buttonPress = mc.get("BUTTON")
+    if buttonPress is not "":
+        print buttonPress
 
     # increase time by 15 min increments, increasing hour up to 23 hundred
     if buttonPress == "UP":
@@ -53,6 +91,7 @@ while True:
 
         # show new alarm time on 7 segment
         setDisplay(sunriseTimeHour, sunriseTimeMin)
+        saveAlarmTime(sunriseTimeHour, sunriseTimeMin)
         time.sleep(1)
 
     # decrease time by 15 min increments, resetting hour back to 23 hundred
@@ -66,23 +105,26 @@ while True:
 
         # show new alarm time on 7 segment
         setDisplay(sunriseTimeHour, sunriseTimeMin)
+        saveAlarmTime(sunriseTimeHour, sunriseTimeMin)
         time.sleep(1)
 
-    # turn on / off the alarm LED
+    # turn on / off the alarm LED, save the settings to file
     elif buttonPress == "ALARM":
-        alarmOn = !alarmOn
-        if alarmOn:
-            GPIO.output(18,GPIO.HIGH)
-        else: 
-            GPIO.output(18,GPIO.LOW)
+        if alarmOn == 'True':
+            alarmOn = 'False'
+        elif alarmOn == 'False':
+            alarmOn = 'True'
+        toggleAlarmOnLight(alarmOn)
+        saveAlarmOn(alarmOn)
 
     # turn on and off the light
     elif buttonPress == "LIGHT":
-        lightOn = !lightOn
-    
-    # set time on the clock
-    now = datetime.datetime.now()
-    setDisplay(now.hour, now.minute)
-    
+        if lightOn == 'True':
+            lightOn = 'False'
+        elif lightOn == 'False':
+            lightOn = 'True'
+        saveLightOn(lightOn)
+
     # wait and go around again
+    mc.set("BUTTON", "")
     time.sleep(0.1)
