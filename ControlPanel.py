@@ -17,7 +17,7 @@ GPIO.setup(16,GPIO.OUT)
 # 7 Segment Clock on i2c on address 0x70
 segment = SevenSegment.SevenSegment(address=0x71)
 
-# initialize the display, must be called once before using the display.
+# initialize the display, must be called once before using the display
 segment.begin()
 segment.set_brightness(3)
 segment.set_colon(True)
@@ -60,7 +60,7 @@ while True:
 
     # increase time by 15 min increments, increasing hour up to 23 hundred
     if buttonPress == "UP":
-        countDown = 1000
+        countDown = 50
         sunriseTimeMin = sunriseTimeMin + 15
         if sunriseTimeMin > 45:
             sunriseTimeMin = 0
@@ -71,11 +71,10 @@ while True:
         # show new alarm time on 7 segment
         setDisplay(sunriseTimeHour, sunriseTimeMin)
         data.saveAlarmTime(sunriseTimeHour, sunriseTimeMin)
-        time.sleep(1)
 
     # decrease time by 15 min increments, resetting hour back to 23 hundred
     if buttonPress == "DOWN":
-        countDown = 1000
+        countDown = 50
         sunriseTimeMin = sunriseTimeMin - 15
         if sunriseTimeMin < 0:
             sunriseTimeMin = 45
@@ -86,15 +85,16 @@ while True:
         # show new alarm time on 7 segment
         setDisplay(sunriseTimeHour, sunriseTimeMin)
         data.saveAlarmTime(sunriseTimeHour, sunriseTimeMin)
-        time.sleep(1)
 
     # turn on / off the alarm LED, save the settings to file
     elif buttonPress == "ALARM":
-        countDown = 1000
         if alarmOn == 'True':
             alarmOn = 'False'
+            countDown = 0
         elif alarmOn == 'False':
             alarmOn = 'True'
+            countDown = 50
+        setDisplay(sunriseTimeHour, sunriseTimeMin)            
         toggleAlarmOnLight(alarmOn)
         data.saveAlarmOn(alarmOn)
 
