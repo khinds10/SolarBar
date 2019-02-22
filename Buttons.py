@@ -3,6 +3,7 @@
 # Kevin Hinds http://www.kevinhinds.com
 # License: GPL 2.0
 import time, commands, subprocess, re, json, sys, os, memcache, json
+import includes.data as data
 from gpiozero import Button
 from gpiozero import LED
 from datetime import datetime
