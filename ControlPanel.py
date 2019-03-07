@@ -1,5 +1,5 @@
 #! /usr/bin/python
-# Solar Bar, main script
+# Solar Bar, control panel driver, handle button clicks, alarm being set
 # Kevin Hinds http://www.kevinhinds.com
 # License: GPL 2.0
 import time, commands, subprocess, re, json, sys, os, memcache

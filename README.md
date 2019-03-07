@@ -25,3 +25,5 @@ Install the NeoPixel Driver as follows
 >`cd examples/`
 >
 >`sudo python strandtest.py`
+
+remember you have to include the rpi_ws281x.zip which you upzip to install, it's not working other wise
