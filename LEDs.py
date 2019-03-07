@@ -14,7 +14,7 @@ LED_STRIP_COUNT = 3       # How many strips are there total for the number of pi
 LED_PIN         = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 LED_FREQ_HZ     = 800000  # LED signal frequency in hertz (usually 800khz)
 LED_DMA         = 10      # DMA channel to use for generating signal (try 10)
-LED_BRIGHTNESS  = 20      # Set to 0 for darkest and 255 for brightest
+LED_BRIGHTNESS  = 255      # Set to 0 for darkest and 255 for brightest
 LED_INVERT      = False   # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL     = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
@@ -31,10 +31,12 @@ for i in range(0, LED_COUNT):
 strip.show()
 
 def illuminate():
+    global currentImage
     currentPixel = 0
     evenNumberedStrip = True
     for currentStrip in range(0, LED_COUNT, (LED_COUNT/LED_STRIP_COUNT)):
-        if evenNumberedStrip:    
+        currentPixel = 0
+        if evenNumberedStrip:
             for ledLight in range(currentStrip, currentStrip + (LED_COUNT/LED_STRIP_COUNT), 1):
                 r,g,b,a = currentImage[currentPixel]
                 strip.setPixelColor(ledLight, Color(r,g,b))
@@ -46,14 +48,17 @@ def illuminate():
                 currentPixel = currentPixel + 1
 
         # the LED strips are upside down, right side up sequentially on the device, so we must iterate through back and forth the LEDs
-        evenNumberedStrip =  not evenNumberedStrip
+        evenNumberedStrip = not evenNumberedStrip       
     strip.show()
 
 def shiftGradient():
-    global currentSunrisePosition
+    global currentSunrisePosition, currentImage
     if currentSunrisePosition > (height - 1):
         currentSunrisePosition = height - 1        
-    currentImage = imagePixels[currentSunrisePosition:currentSunrisePosition + height]
+    currentImage = imagePixels[currentSunrisePosition:currentSunrisePosition + (LED_COUNT/LED_STRIP_COUNT)]
+    new_img = Image.new("RGB", (1, (LED_COUNT/LED_STRIP_COUNT)), "black")
+    new_img.putdata(currentImage)
+    new_img.save('test.png')
 
 im = Image.open('gradients/6.png')
 imagePixels = list(im.getdata())
@@ -75,19 +80,25 @@ imagePixels = completeGradient
 
 # get current gradient as is to be manipulated, original image 
 #   that the completeGradient can slowly take over as the "sun rises" or control panel adjusted
-currentImage = imagePixels[0:550]
+currentImage = imagePixels[0:(LED_COUNT/LED_STRIP_COUNT)]
 
 # start waiting on any changes to the gradient to adjust the LED strips as necessary
 currentSunrisePosition = 0
+gradientCheck = 0
 while True:
-    gradientCheck = mc.get("GRADIENT")
+    #gradientCheck = mc.get("GRADIENT")    
+    gradientCheck = gradientCheck + 1
+    
+    if gradientCheck > height * 2:
+        gradientCheck = 1
+    
     
     # we have a gradient position incoming, consume and adjust light illumination as instructed
-    if gradientCheck:    
+    if gradientCheck:  
+        print gradientCheck
         currentSunrisePosition = int(gradientCheck)
         shiftGradient()
         illuminate()
 
     # wait and go around again
     mc.set("GRADIENT", "")
-    time.sleep(1)
