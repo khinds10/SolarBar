@@ -9,12 +9,13 @@ import includes.data as data
 mc = memcache.Client(['127.0.0.1:11211'], debug=0)
 
 # LED strip configuration:import settings as settings
-LED_COUNT       = 432     # Number of LED pixels.
+LED_COUNT       = 288    # Number of LED pixels.
+#LED_COUNT        = 512
 LED_STRIP_COUNT = 3       # How many strips are there total for the number of pixels
 LED_PIN         = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 LED_FREQ_HZ     = 800000  # LED signal frequency in hertz (usually 800khz)
 LED_DMA         = 10      # DMA channel to use for generating signal (try 10)
-LED_BRIGHTNESS  = 255      # Set to 0 for darkest and 255 for brightest
+LED_BRIGHTNESS  = 200      # Set to 0 for darkest and 255 for brightest
 LED_INVERT      = False   # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL     = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
@@ -33,7 +34,7 @@ strip.show()
 def illuminate():
     global currentImage
     currentPixel = 0
-    evenNumberedStrip = True
+    evenNumberedStrip = False
     for currentStrip in range(0, LED_COUNT, (LED_COUNT/LED_STRIP_COUNT)):
         currentPixel = 0
         if evenNumberedStrip:
@@ -56,11 +57,8 @@ def shiftGradient():
     if currentSunrisePosition > (height - 1):
         currentSunrisePosition = height - 1        
     currentImage = imagePixels[currentSunrisePosition:currentSunrisePosition + (LED_COUNT/LED_STRIP_COUNT)]
-    new_img = Image.new("RGB", (1, (LED_COUNT/LED_STRIP_COUNT)), "black")
-    new_img.putdata(currentImage)
-    new_img.save('test.png')
 
-im = Image.open('gradients/6.png')
+im = Image.open('gradients/3.png')
 imagePixels = list(im.getdata())
 width, height = im.size
 ledStripCount = LED_COUNT / LED_STRIP_COUNT
@@ -92,10 +90,8 @@ while True:
     if gradientCheck > height * 2:
         gradientCheck = 1
     
-    
     # we have a gradient position incoming, consume and adjust light illumination as instructed
     if gradientCheck:  
-        print gradientCheck
         currentSunrisePosition = int(gradientCheck)
         shiftGradient()
         illuminate()
