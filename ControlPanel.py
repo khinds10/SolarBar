@@ -22,16 +22,14 @@ segment.begin()
 segment.set_brightness(3)
 segment.set_colon(True)
 
-# application defaults
-sunriseTimeHour = 7
-sunriseTimeMin = 0
-alarmOn = 'False'
-lightOn = '0'
+# get total number of gradients set for the light bar
+path, dirs, files = next(os.walk("gradients"))
+totalGradients = len(files)
 
-def toggleAlarmOnLight(alarmOn):
+def toggleAlarmOnLight(alarmSet):
     """toggle alarm on light"""
-    print alarmOn
-    if alarmOn == 'True':
+    print alarmSet
+    if alarmSet == 'True':
         GPIO.output(16,GPIO.HIGH)
     else: 
         GPIO.output(16,GPIO.LOW)
@@ -47,13 +45,27 @@ def setDisplay(hour, minute):
     segment.set_digit(3, minute % 10)
     segment.write_display()
 
-# run script, check for button presses
+# application values loaded from saved data on filesystem
 alarm = data.getJSONFromDataFile('data/alarm.data')
-alarmOn = data.getJSONFromDataFile('data/alarmSet.data')
-toggleAlarmOnLight(alarmOn)
+sunriseTimeHour = alarm[0]
+sunriseTimeMin = alarm[1]
+alarmSet = data.getJSONFromDataFile('data/alarmSet.data')
+gradientSet = data.getJSONFromDataFile('data/gradient.data')
+lightOn = data.getJSONFromDataFile('data/lightOn.data')
+
+# run script, check for button presses
+toggleAlarmOnLight(alarmSet)
 setDisplay(alarm[0], alarm[1])
 countDown = 0
 while True:
+
+    # capture slider change from memcache flag update
+    sliderValue = mc.get("SLIDER")
+    if sliderValue is not "":
+        print sliderValue        
+    data.saveSliderPosition(sliderValue)
+
+    # capture button press from memcache flag
     buttonPress = mc.get("BUTTON")
     if buttonPress is not "":
         print buttonPress
@@ -88,23 +100,31 @@ while True:
 
     # turn on / off the alarm LED, save the settings to file
     elif buttonPress == "ALARM":
-        if alarmOn == 'True':
-            alarmOn = 'False'
+        if alarmSet == 'True':
+            alarmSet = 'False'
             countDown = 0
-        elif alarmOn == 'False':
-            alarmOn = 'True'
+        elif alarmSet == 'False':
+            alarmSet = 'True'
             countDown = 50
         setDisplay(sunriseTimeHour, sunriseTimeMin)            
-        toggleAlarmOnLight(alarmOn)
-        data.saveAlarmOn(alarmOn)
+        toggleAlarmOnLight(alarmSet)
+        data.saveAlarmSet(alarmSet)
 
     # turn on and off the light
     elif buttonPress == "LIGHT":
         lightOn = int(lightOn)
         lightOn = lightOn + 1
-        if lightOn > 6:
+        if lightOn > 1:
             lightOn = 0
         data.saveLightOn(str(lightOn))
+
+    # change the gradient set for the light panel
+    elif buttonPress == "CHANGE":
+        gradientSet = int(gradientSet)
+        gradientSet = gradientSet + 1
+        if gradientSet > totalGradients:
+            gradientSet = 1
+        data.saveGradientValue(str(gradientSet))
 
     # decrement the countDown value (we only keep the "time" 7 segment display on for so many seconds)
     countDown = countDown - 1
@@ -115,4 +135,6 @@ while True:
         
     # wait and go around again
     mc.set("BUTTON", "")
+    mc.set("SLIDER", str("0"))
+    
     time.sleep(0.1)

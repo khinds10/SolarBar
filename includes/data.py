@@ -11,19 +11,29 @@ def getJSONFromDataFile(fileName):
             return json.load(locationFile)
     except (Exception):
         return ""
-        
+
 def saveAlarmTime(hour, minute):
     """save the hour and minutes the sunrise alarm is set to"""
     f = file('data/alarm.data', "w")
     alarmTime = [hour, minute]
     f.write(str(json.dumps(alarmTime)))
 
-def saveAlarmOn(alarmOn):
+def saveAlarmSet(alarmSet):
     """save if the alarm is turned on or off"""
     f = file('data/alarmSet.data', "w")
-    f.write(str(json.dumps(alarmOn)))
-    
+    f.write(str(json.dumps(alarmSet)))
+
 def saveLightOn(lightOn):
     """save if the light is turned on or off"""
     f = file('data/lightOn.data', "w")
     f.write(str(json.dumps(lightOn)))
+
+def saveGradientValue(gradientSet):
+    """save which gradient to show on the panel"""
+    f = file('data/gradient.data', "w")
+    f.write(str(json.dumps(gradientSet)))
+    
+def saveSliderPosition(sliderValue):
+    """save current position the slider is set to"""
+    f = file('data/position.data', "w")
+    f.write(str(json.dumps(sliderValue)))
