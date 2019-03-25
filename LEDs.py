@@ -64,7 +64,7 @@ def saveDebugImage():
     global currentImage
     newImage = Image.new("RGB", (1,len(currentImage)))
     newImage.putdata(currentImage)
-    newImage.save('test.png')
+    newImage.save('currentPanelColors.png')
 
 def shiftGradient():
     """move the gradient"""
