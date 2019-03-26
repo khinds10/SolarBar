@@ -8,12 +8,12 @@ from neopixel import *
 import includes.data as data
 
 # LED strip configuration:import settings as settings
-LED_COUNT       = 288     # Number of LED pixels.
+LED_COUNT       = 576     # Number of LED pixels.
 LED_STRIP_COUNT = 2       # How many strips are there total for the number of pixels
 LED_PIN         = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 LED_FREQ_HZ     = 800000  # LED signal frequency in hertz (usually 800khz)
 LED_DMA         = 10      # DMA channel to use for generating signal (try 10)
-LED_BRIGHTNESS  = 255     # Set to 0 for darkest and 255 for brightest
+LED_BRIGHTNESS  = 10     # Set to 0 for darkest and 255 for brightest
 LED_INVERT      = False   # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL     = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 LED_TOTAL_STRIPS = LED_COUNT/LED_STRIP_COUNT
@@ -37,7 +37,7 @@ def reset():
 
 def illuminate():
     """turn on the strip to the current gradient set"""
-    global isIllumniated    
+    global isIllumniated, currentImage
     print "illuminate()"
     currentPixel = 0
     evenNumberedStrip = True
@@ -106,7 +106,10 @@ def getCurrentPanelSettings():
     global gradientSet, lightOn, currentPosition
     gradientSet = data.getJSONFromDataFile('data/gradient.data')
     lightOn = data.getJSONFromDataFile('data/lightOn.data')
-    currentPosition = int(data.getJSONFromDataFile('data/position.data'))
+    try:
+        currentPosition = int(data.getJSONFromDataFile('data/position.data'))
+    except:
+        currentPosition = 0
     print "getCurrentPanelSettings() = gradientSet: " + str(gradientSet) + " / lightOn: " + str(lightOn) + " / currentPosition: " + str(currentPosition)
 
 # load current settings for the panel
@@ -130,14 +133,16 @@ while True:
     # update gradient if new one is set
     if gradientSet != prevGradient:
         getGradient()
+        illuminate()
         prevGradient = gradientSet
 
     # update 
     if currentPosition != prevPosition:
         currentSunrisePosition = currentPosition
         shiftGradient()
+        illuminate()
         prevPosition = currentPosition
 
     # go around again
     getCurrentPanelSettings()
-    time.sleep(1)
+    time.sleep(0.1)

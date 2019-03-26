@@ -63,7 +63,7 @@ while True:
     sliderValue = mc.get("SLIDER")
     if sliderValue is not "":
         print sliderValue        
-    data.saveSliderPosition(sliderValue)
+        data.saveSliderPosition(sliderValue)
 
     # capture button press from memcache flag
     buttonPress = mc.get("BUTTON")
@@ -135,6 +135,6 @@ while True:
         
     # wait and go around again
     mc.set("BUTTON", "")
-    mc.set("SLIDER", str("0"))
+    mc.set("SLIDER", "")
     
     time.sleep(0.1)

@@ -7,4 +7,4 @@ import includes.data as data
 mc = memcache.Client(['127.0.0.1:11211'], debug=0)
 
 # adjustable slider, so be it. you shall be the fellowship of the lamp
-mc.set("SLIDER", str("0"))
+mc.set("SLIDER", "")
