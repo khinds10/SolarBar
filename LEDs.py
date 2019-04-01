@@ -9,11 +9,11 @@ import includes.data as data
 
 # LED strip configuration:import settings as settings
 LED_COUNT       = 576     # Number of LED pixels.
-LED_STRIP_COUNT = 2       # How many strips are there total for the number of pixels
+LED_STRIP_COUNT = 4       # How many strips are there total for the number of pixels
 LED_PIN         = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 LED_FREQ_HZ     = 800000  # LED signal frequency in hertz (usually 800khz)
 LED_DMA         = 10      # DMA channel to use for generating signal (try 10)
-LED_BRIGHTNESS  = 10     # Set to 0 for darkest and 255 for brightest
+LED_BRIGHTNESS  = 255     # Set to 0 for darkest and 255 for brightest
 LED_INVERT      = False   # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL     = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 LED_TOTAL_STRIPS = LED_COUNT/LED_STRIP_COUNT
@@ -40,7 +40,7 @@ def illuminate():
     global isIllumniated, currentImage
     print "illuminate()"
     currentPixel = 0
-    evenNumberedStrip = True
+    evenNumberedStrip = False
     for currentStrip in range(0, LED_COUNT, (LED_TOTAL_STRIPS)):
         currentPixel = 0
         if evenNumberedStrip:
@@ -64,7 +64,7 @@ def saveDebugImage():
     global currentImage
     newImage = Image.new("RGB", (1,len(currentImage)))
     newImage.putdata(currentImage)
-    newImage.save('currentPanelColors.png')
+    newImage.save('/home/pi/SolarBar/currentPanelColors.png')
 
 def shiftGradient():
     """move the gradient"""
@@ -79,7 +79,7 @@ def getGradient():
     """get the gradient chosen into memory"""
     global currentImage, imgWidth, imgHeight, imagePixels
     print "getGradient() = " + str(gradientSet)
-    im = Image.open('gradients/' + gradientSet + '.png')
+    im = Image.open('/home/pi/SolarBar/gradients/' + gradientSet + '.png')
     imagePixels = list(im.getdata())
     imgWidth, imgHeight = im.size
 
@@ -104,8 +104,8 @@ def getGradient():
 def getCurrentPanelSettings():
     """get the currently set values for what the light panel is supposed to reflect"""
     global gradientSet, lightOn, currentPosition
-    gradientSet = data.getJSONFromDataFile('data/gradient.data')
-    lightOn = data.getJSONFromDataFile('data/lightOn.data')
+    gradientSet = data.getJSONFromDataFile('/home/pi/SolarBar/data/gradient.data')
+    lightOn = data.getJSONFromDataFile('/home/pi/SolarBar/data/lightOn.data')
     try:
         currentPosition = int(data.getJSONFromDataFile('data/position.data'))
     except:

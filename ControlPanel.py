@@ -23,7 +23,7 @@ segment.set_brightness(3)
 segment.set_colon(True)
 
 # get total number of gradients set for the light bar
-path, dirs, files = next(os.walk("gradients"))
+path, dirs, files = next(os.walk("/home/pi/SolarBar/gradients"))
 totalGradients = len(files)
 
 def toggleAlarmOnLight(alarmSet):
@@ -46,12 +46,12 @@ def setDisplay(hour, minute):
     segment.write_display()
 
 # application values loaded from saved data on filesystem
-alarm = data.getJSONFromDataFile('data/alarm.data')
+alarm = data.getJSONFromDataFile('/home/pi/SolarBar/data/alarm.data')
 sunriseTimeHour = alarm[0]
 sunriseTimeMin = alarm[1]
-alarmSet = data.getJSONFromDataFile('data/alarmSet.data')
-gradientSet = data.getJSONFromDataFile('data/gradient.data')
-lightOn = data.getJSONFromDataFile('data/lightOn.data')
+alarmSet = data.getJSONFromDataFile('/home/pi/SolarBar/data/alarmSet.data')
+gradientSet = data.getJSONFromDataFile('/home/pi/SolarBar/data/gradient.data')
+lightOn = data.getJSONFromDataFile('/home/pi/SolarBar/data/lightOn.data')
 
 # run script, check for button presses
 toggleAlarmOnLight(alarmSet)
