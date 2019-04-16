@@ -14,25 +14,29 @@ a_pin = 18
 b_pin = 23
 
 def discharge():
+    """discharge the pin to start counting how long it takes to recharge"""
     GPIO.setup(a_pin, GPIO.IN)
     GPIO.setup(b_pin, GPIO.OUT)
     GPIO.output(b_pin, False)
     time.sleep(0.005)
 
 def chargeTime():
+    """arbitrary counter for how it takes to charge again"""
     GPIO.setup(b_pin, GPIO.IN)
     GPIO.setup(a_pin, GPIO.OUT)
     count = 0
     GPIO.output(a_pin, True)
     while not GPIO.input(b_pin):
-        count = count + 1
+        count += 1
     return count
 
 def analogRead():
+    """read in the arbitrary 'charge time' counter"""
     discharge()
     return chargeTime()
 
 def getCurrentGradient(currentGradient):
+    """for newly calculated gradient from slider being changed, set the new strip gradient position"""
     if currentGradient < 1:
         currentGradient = 1
     if currentGradient > 25:
@@ -56,20 +60,17 @@ def getJSONFromDataFile(fileName):
     except (Exception):
         return ""
 
-averageCount = 0
-currentGradientAvg = 0
+# begin loop over the analog read of the slider position 
+#   to set the gradient position desired for the LED strip
+averageCount, currentGradientAvg = 0
 while True:
-    average = 0
-    count = 0    
+    average, count = 0    
     while count < 9:
-        average = average + analogRead()
-        count = count + 1
+        average += analogRead()
+        count += 1
         time.sleep(0.01)
-    currentGradient = int(average / 10)
-    currentGradientAvg = currentGradientAvg + currentGradient
-    averageCount = averageCount + 1
+    currentGradientAvg += int(average / 10)
+    averageCount += 1
     if averageCount > 9:
-        currentGradient = int(currentGradientAvg / 10)
-        averageCount = 0
-        currentGradientAvg = 0
-        getCurrentGradient(currentGradient)    
+        getCurrentGradient(int(currentGradientAvg / 10))    
+        averageCount, currentGradientAvg = 0
