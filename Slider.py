@@ -62,9 +62,9 @@ def getJSONFromDataFile(fileName):
 
 # begin loop over the analog read of the slider position 
 #   to set the gradient position desired for the LED strip
-averageCount, currentGradientAvg = 0
+averageCount, currentGradientAvg = 0, 0
 while True:
-    average, count = 0    
+    average, count = 0, 0
     while count < 9:
         average += analogRead()
         count += 1
@@ -73,4 +73,4 @@ while True:
     averageCount += 1
     if averageCount > 9:
         getCurrentGradient(int(currentGradientAvg / 10))    
-        averageCount, currentGradientAvg = 0
+        averageCount, currentGradientAvg = 0, 0
