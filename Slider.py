@@ -3,9 +3,9 @@
 # Kevin Hinds http://www.kevinhinds.com
 # License: GPL 2.0
 import time, json #, commands, subprocess, re, json, sys, os, memcache
-#import includes.data as data
+import includes.data as data
 import RPi.GPIO as GPIO
-#mc = memcache.Client(['127.0.0.1:11211'], debug=0)
+mc = memcache.Client(['127.0.0.1:11211'], debug=0)
 
 # adjustable slider, so be it. you shall be the fellowship of the lamp
 # http://razzpisampler.oreilly.com/ch08.html
@@ -35,31 +35,6 @@ def analogRead():
     discharge()
     return chargeTime()
 
-def getCurrentGradient(currentGradient):
-    """for newly calculated gradient from slider being changed, set the new strip gradient position"""
-    if currentGradient < 1:
-        currentGradient = 1
-    if currentGradient > 25:
-        currentGradient = 25
-    ledNewGradient = currentGradient * 12
-    currentGradient = int(getJSONFromDataFile('/home/pi/SolarBar/data/position.data'))
-    if (ledNewGradient > currentGradient + 12 or ledNewGradient < currentGradient - 12):
-        saveSliderPosition(str(ledNewGradient))
-        print ledNewGradient
-
-def saveSliderPosition(sliderValue):
-    """save current position the slider is set to"""
-    f = file('/home/pi/SolarBar/data/position.data', "w")
-    f.write(str(json.dumps(sliderValue)))
-
-def getJSONFromDataFile(fileName):
-    """get JSON contents from file in question"""
-    try:
-        with open(fileName) as locationFile:    
-            return json.load(locationFile)
-    except (Exception):
-        return ""
-
 # begin loop over the analog read of the slider position 
 #   to set the gradient position desired for the LED strip
 averageCount, currentGradientAvg = 0, 0
@@ -72,5 +47,5 @@ while True:
     currentGradientAvg += int(average / 10)
     averageCount += 1
     if averageCount > 9:
-        getCurrentGradient(int(currentGradientAvg / 10))    
+        data.getCurrentGradient(int(currentGradientAvg / 10))    
         averageCount, currentGradientAvg = 0, 0
