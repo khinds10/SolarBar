@@ -10,7 +10,7 @@ import RPi.GPIO as GPIO
 # adjustable slider, so be it. you shall be the fellowship of the lamp
 # http://razzpisampler.oreilly.com/ch08.html
 GPIO.setmode(GPIO.BCM)
-a_pin = 18
+a_pin = 24
 b_pin = 23
 
 def discharge():
