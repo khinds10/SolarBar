@@ -36,4 +36,16 @@ def saveGradientValue(gradientSet):
 def saveSliderPosition(sliderValue):
     """save current position the slider is set to"""
     f = file('/home/pi/SolarBar/data/position.data', "w")
-    f.write(str(json.dumps(sliderValue)))
+    f.write(str(json.dumps(sliderValue)))    
+    
+def getCurrentGradient(currentGradient):
+    """for newly calculated gradient from slider being changed, set the new strip gradient position"""
+    if currentGradient < 1:
+        currentGradient = 1
+    if currentGradient > 25:
+        currentGradient = 25
+    ledNewGradient = currentGradient * 12
+    currentGradient = int(getJSONFromDataFile('/home/pi/SolarBar/data/position.data'))
+    if (ledNewGradient > currentGradient + 12 or ledNewGradient < currentGradient - 12):
+        saveSliderPosition(str(ledNewGradient))
+        print ledNewGradient

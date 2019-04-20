@@ -2,7 +2,7 @@
 # Solar Bar, control panel driver, handle button clicks, alarm being set
 # Kevin Hinds http://www.kevinhinds.com
 # License: GPL 2.0
-import time, commands, subprocess, re, json, sys, os, memcache
+import time, commands, subprocess, re, json, sys, os, memcache, datetime
 import includes.data as data
 from datetime import datetime
 mc = memcache.Client(['127.0.0.1:11211'], debug=0)
@@ -34,7 +34,7 @@ def toggleAlarmOnLight(alarmSet):
     else: 
         GPIO.output(16,GPIO.LOW)
 
-def setDisplay(hour, minute):
+def setDisplay(hour, minute, brightness):
     """set 7 segment display with hour and minute"""
     if (hour > 12):
         hour = hour - 12  
@@ -43,6 +43,19 @@ def setDisplay(hour, minute):
     segment.set_digit(1, hour % 10)
     segment.set_digit(2, int(minute / 10))
     segment.set_digit(3, minute % 10)
+    segment.set_colon(True)
+    segment.set_brightness(brightness)
+    segment.write_display()
+    
+def setDisplayMessage(digit1, digit2, digit3, digit4, brightness):
+    """set the display to show custom message digit by digit"""
+    segment.clear()
+    segment.set_digit(0, digit1)
+    segment.set_digit(1, digit2)
+    segment.set_digit(2, digit3)
+    segment.set_digit(3, digit4)
+    segment.set_colon(False)
+    segment.set_brightness(brightness)
     segment.write_display()
 
 # application values loaded from saved data on filesystem
@@ -55,14 +68,19 @@ lightOn = data.getJSONFromDataFile('/home/pi/SolarBar/data/lightOn.data')
 
 # run script, check for button presses
 toggleAlarmOnLight(alarmSet)
-setDisplay(alarm[0], alarm[1])
 countDown = 0
 while True:
 
     # capture slider change from memcache flag update
     sliderValue = mc.get("SLIDER")
     if sliderValue is not "":
-        print sliderValue        
+        print sliderValue
+        
+        #TODO get the slider reversed and have it show 0-100 here
+        
+        #TODO is this even used!?
+        # i think you have to get it from the file directly
+        
         data.saveSliderPosition(sliderValue)
 
     # capture button press from memcache flag
@@ -81,7 +99,7 @@ while True:
             sunriseTimeHour = 0
 
         # show new alarm time on 7 segment
-        setDisplay(sunriseTimeHour, sunriseTimeMin)
+        setDisplay(sunriseTimeHour, sunriseTimeMin, 3)
         data.saveAlarmTime(sunriseTimeHour, sunriseTimeMin)
 
     # decrease time by 15 min increments, resetting hour back to 23 hundred
@@ -112,26 +130,37 @@ while True:
 
     # turn on and off the light
     elif buttonPress == "LIGHT":
+        countDown = 50
         lightOn = int(lightOn)
         lightOn = lightOn + 1
         if lightOn > 1:
             lightOn = 0
         data.saveLightOn(str(lightOn))
-
+        
+        # show the on/off state on the LED display
+        if lightOn > 0:
+            setDisplayMessage("", "", "o", "n", 3)
+        else:
+            setDisplayMessage("", "o", "f", "f", 3)
+        
     # change the gradient set for the light panel
     elif buttonPress == "CHANGE":
+        countDown = 50
         gradientSet = int(gradientSet)
         gradientSet = gradientSet + 1
         if gradientSet > totalGradients:
             gradientSet = 1
         data.saveGradientValue(str(gradientSet))
-
+        
+        # show the current gradient number on the LED display
+        setDisplayMessage("-", "-", "-", str(gradientSet), 3)
+        
     # decrement the countDown value (we only keep the "time" 7 segment display on for so many seconds)
     countDown = countDown - 1
     if countDown < 0:
         countDown = 0
-        segment.clear()
-        segment.write_display()
+        now = datetime.datetime.now()
+        setDisplay(str(now.hour), str(now.minute), 1)
         
     # wait and go around again
     mc.set("BUTTON", "")
