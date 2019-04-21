@@ -37,9 +37,12 @@ def changeGradient():
     mc.set("BUTTON", str("CHANGE"))
 
 while True:
-    upButton.when_pressed = pressUp
-    downButton.when_pressed = pressDown
-    alarmButton.when_pressed = alarmOnOff
-    lightButton.when_pressed = lightOnOff
-    changeButton.when_pressed = changeGradient
-    time.sleep(0.1)
+    try:
+        upButton.when_pressed = pressUp
+        downButton.when_pressed = pressDown
+        alarmButton.when_pressed = alarmOnOff
+        lightButton.when_pressed = lightOnOff
+        changeButton.when_pressed = changeGradient
+        time.sleep(0.1)
+    except (Exception):
+        time.sleep(0.1)

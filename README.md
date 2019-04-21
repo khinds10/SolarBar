@@ -27,3 +27,17 @@ Install the NeoPixel Driver as follows
 >`sudo python strandtest.py`
 
 remember you have to include the rpi_ws281x.zip which you upzip to install, it's not working other wise
+
+user crontab 
+
+0 3 * * * python /home/pi/SolarBar/Alarm.py > /dev/null 2>&1
+@reboot python /home/pi/SolarBar/Buttons.py > /dev/null 2>&1
+@reboot python /home/pi/SolarBar/ControlPanel.py > /dev/null 2>&1
+@reboot python /home/pi/SolarBar/Slider.py > /dev/null 2>&1
+
+
+root crontab
+
+@reboot python /home/pi/SolarBar/LEDs.py > /dev/null 2>&1
+
+

@@ -79,7 +79,7 @@ def getGradient():
     """get the gradient chosen into memory"""
     global currentImage, imgWidth, imgHeight, imagePixels
     print "getGradient() = " + str(gradientSet)
-    im = Image.open('/home/pi/SolarBar/gradients/' + gradientSet + '.png')
+    im = Image.open('/home/pi/SolarBar/gradients/' + str(gradientSet) + '.png')
     imagePixels = list(im.getdata())
     imgWidth, imgHeight = im.size
 
@@ -108,6 +108,7 @@ def getCurrentPanelSettings():
     lightOn = data.getJSONFromDataFile('/home/pi/SolarBar/data/lightOn.data')
     try:
         currentPosition = int(data.getJSONFromDataFile('data/position.data'))
+        currentPosition = currentPosition * 12
     except:
         currentPosition = 0
     print "getCurrentPanelSettings() = gradientSet: " + str(gradientSet) + " / lightOn: " + str(lightOn) + " / currentPosition: " + str(currentPosition)
@@ -123,26 +124,28 @@ getGradient()
 
 # begin the panel
 while True:
+    try:
+        # light on/off if changed
+        if lightOn == "1" and not isIllumniated:
+            illuminate()
+        if lightOn == "0" and isIllumniated:
+            reset()
 
-    # light on/off if changed
-    if lightOn == "1" and not isIllumniated:
-        illuminate()
-    if lightOn == "0" and isIllumniated:
-        reset()
+        # update gradient if new one is set
+        if gradientSet != prevGradient:
+            getGradient()
+            illuminate()
+            prevGradient = gradientSet
 
-    # update gradient if new one is set
-    if gradientSet != prevGradient:
-        getGradient()
-        illuminate()
-        prevGradient = gradientSet
+        # update 
+        if currentPosition != prevPosition:
+            currentSunrisePosition = currentPosition
+            shiftGradient()
+            illuminate()
+            prevPosition = currentPosition
 
-    # update 
-    if currentPosition != prevPosition:
-        currentSunrisePosition = currentPosition
-        shiftGradient()
-        illuminate()
-        prevPosition = currentPosition
-
-    # go around again
-    getCurrentPanelSettings()
-    time.sleep(0.1)
+        # go around again
+        getCurrentPanelSettings()
+        time.sleep(0.1)
+    except (Exception):
+        time.sleep(0.1)

@@ -2,7 +2,7 @@
 # Solar Bar, color control sliders
 # Kevin Hinds http://www.kevinhinds.com
 # License: GPL 2.0
-import time, json #, commands, subprocess, re, json, sys, os, memcache
+import time, json, commands, subprocess, re, json, sys, os, memcache
 import includes.data as data
 import RPi.GPIO as GPIO
 mc = memcache.Client(['127.0.0.1:11211'], debug=0)
@@ -38,14 +38,24 @@ def analogRead():
 # begin loop over the analog read of the slider position 
 #   to set the gradient position desired for the LED strip
 averageCount, currentGradientAvg = 0, 0
+currentSliderPosition, newSliderPosition = 0,0
 while True:
-    average, count = 0, 0
-    while count < 9:
-        average += analogRead()
-        count += 1
-        time.sleep(0.01)
-    currentGradientAvg += int(average / 10)
-    averageCount += 1
-    if averageCount > 9:
-        data.getCurrentGradient(int(currentGradientAvg / 10))    
-        averageCount, currentGradientAvg = 0, 0
+    try:
+        average, count = 0, 0
+        while count < 9:
+            average += analogRead()
+            count += 1
+            time.sleep(0.01)
+        currentGradientAvg += int(average / 10)
+        averageCount += 1
+    
+        # save the new average slider reading, making sure it's out of the current range +/- 24 (this reduces noisy readings)
+        if averageCount > 9:
+            newSliderPosition = int(currentGradientAvg / 10)
+            if (newSliderPosition > currentSliderPosition + 5) or (newSliderPosition < currentSliderPosition - 5):
+                currentSliderPosition = newSliderPosition
+                data.saveSliderPosition(currentSliderPosition)
+                print currentSliderPosition
+            averageCount, currentGradientAvg = 0, 0 
+    except (Exception):
+        time.sleep(0.1)
