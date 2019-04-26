@@ -1,7 +1,7 @@
 # SolarBar
 Sunlight simulator, sunrise sunset simulator for seasonal depression
 
->$ `sudo apt-get install memcached vim git python-smbus i2c-tools python-imaging python-smbus build-essential python-dev rpi.gpio python3 python3-pip python-memcache`
+>$ `sudo apt-get install memcached vim git python-gpiozero python-smbus i2c-tools python-imaging python-smbus build-essential python-dev rpi.gpio python3 python3-pip python-memcache`
 
 
 **Install i2c Python Drivers**
@@ -35,9 +35,15 @@ user crontab
 @reboot python /home/pi/SolarBar/ControlPanel.py > /dev/null 2>&1
 @reboot python /home/pi/SolarBar/Slider.py > /dev/null 2>&1
 
-
 root crontab
 
 @reboot python /home/pi/SolarBar/LEDs.py > /dev/null 2>&1
+
+sudo apt-get install python3-spidev python-spidev
+
+enable SPI
+ P4 SPI         Enable/Disable automatic loading of SPI kernel module
+
+
 
 
