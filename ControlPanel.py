@@ -90,15 +90,16 @@ while True:
 
         # show on the 7 segment display the current slider "position" set for the sunrise as a percent whole number to user
         newPosition = data.getJSONFromDataFile('/home/pi/SolarBar/data/position.data')
-        if newPosition != prevPosition:
+        if int(newPosition) < int(prevPosition) - 1 or int(newPosition) > int(prevPosition) + 1:
             countDown = 25
             prevPosition = newPosition
             percentposition = str(newPosition)
+	    print newPosition
             try:
-                if newPosition < 999:
+                if int(newPosition) < 99:
                     setDisplayMessage("-", percentposition[0], percentposition[1], "-", 3)
                 else:
-                    setDisplayMessage("-", percentposition[0], percentposition[1], percentposition[1], 3)
+                    setDisplayMessage("-", "1", "0", "0", 3)
             except (Exception):
                 setDisplayMessage("-", " ", percentposition[0], "-", 3)
                 

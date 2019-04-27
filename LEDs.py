@@ -108,7 +108,7 @@ def getCurrentPanelSettings():
     lightOn = data.getJSONFromDataFile('/home/pi/SolarBar/data/lightOn.data')
     try:
         currentPosition = int(data.getJSONFromDataFile('/home/pi/SolarBar/data/position.data'))
-        currentPosition = currentPosition * 5
+        currentPosition = int(currentPosition * 4.5)
     except:
         currentPosition = 0
     print "getCurrentPanelSettings() = gradientSet: " + str(gradientSet) + " / lightOn: " + str(lightOn) + " / currentPosition: " + str(currentPosition)
