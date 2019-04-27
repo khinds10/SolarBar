@@ -95,7 +95,7 @@ while True:
             prevPosition = newPosition
             percentposition = str(newPosition)
             try:
-                if newPosition < 99:
+                if newPosition < 999:
                     setDisplayMessage("-", percentposition[0], percentposition[1], "-", 3)
                 else:
                     setDisplayMessage("-", percentposition[0], percentposition[1], percentposition[1], 3)
