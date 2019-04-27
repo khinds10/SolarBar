@@ -93,9 +93,12 @@ while True:
         if newPosition != prevPosition:
             countDown = 25
             prevPosition = newPosition
-            percentposition = str(int(newPosition * math.floor(2.18)))
+            percentposition = str(newPosition)
             try:
-                setDisplayMessage("-", percentposition[0], percentposition[1], "-", 3)
+                if newPosition < 99:
+                    setDisplayMessage("-", percentposition[0], percentposition[1], "-", 3)
+                else:
+                    setDisplayMessage("-", percentposition[0], percentposition[1], percentposition[1], 3)
             except (Exception):
                 setDisplayMessage("-", " ", percentposition[0], "-", 3)
                 

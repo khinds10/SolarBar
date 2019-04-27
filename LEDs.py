@@ -107,8 +107,8 @@ def getCurrentPanelSettings():
     gradientSet = data.getJSONFromDataFile('/home/pi/SolarBar/data/gradient.data')
     lightOn = data.getJSONFromDataFile('/home/pi/SolarBar/data/lightOn.data')
     try:
-        currentPosition = int(data.getJSONFromDataFile('data/position.data'))
-        currentPosition = currentPosition * 12
+        currentPosition = int(data.getJSONFromDataFile('/home/pi/SolarBar/data/position.data'))
+        currentPosition = currentPosition * 5
     except:
         currentPosition = 0
     print "getCurrentPanelSettings() = gradientSet: " + str(gradientSet) + " / lightOn: " + str(lightOn) + " / currentPosition: " + str(currentPosition)
@@ -134,14 +134,16 @@ while True:
         # update gradient if new one is set
         if gradientSet != prevGradient:
             getGradient()
-            illuminate()
+            if isIllumniated:
+                illuminate()
             prevGradient = gradientSet
 
         # update 
         if currentPosition != prevPosition:
             currentSunrisePosition = currentPosition
             shiftGradient()
-            illuminate()
+            if isIllumniated:
+                illuminate()
             prevPosition = currentPosition
 
         # go around again
