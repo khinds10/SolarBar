@@ -147,21 +147,31 @@ Install the NeoPixel Driver as follows
 
 # Supplies Needed
 
-PI ZERO W
-
-Logarithmic Slide Potentiometer
-
-Microchip MCP3008
-
-Power Supply
+5V Power Supply
+![5V Power Supply](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/5VPowerSupply.png "5V Power Supply")
 
 I2C 7 SEGMENT
+![I2C 7 SEGMENT](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/i2C7Segment.png "I2C 7 SEGMENT")
 
-WS2812B Individually Addressable RGB LED [x4]
+Microchip MCP3008
+![Microchip MCP3008](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/MCP3008.png "Microchip MCP3008")
 
 Momentary Tactile Tact Push Button Switch [x5]
+![Momentary Tactile Tact Push Button Switch](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/MomentaryPushButton.png "Momentary Tactile Tact Push Button Switch")
+
+PI ZERO W
+![PI ZERO W](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/PiZero.jpg "PI ZERO W")
+
+Logarithmic Slide Potentiometer
+![Logarithmic Slide Potentiometer](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/Potentiometer.jpg "Logarithmic Slide Potentiometer")
+
+WS2812B Individually Addressable RGB LED Strip [x4]
+![WS2812B Individually Addressable RGB LED Strip](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/WS2812B.png "WS2812B Individually Addressable RGB LED Strip")
 
 ### Wiring the Components
+
+
+
 
 ## Print the Enclosure panels
 
