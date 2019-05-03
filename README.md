@@ -3,6 +3,8 @@ Schedule your own personal sunrise, improves morning wakefulness
 
 ![Finished](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/finished.png "Finished")
 
+[![Sunrise Alarm Clock](https://img.youtube.com/vi/JoXHWPglelI/0.jpg)](https://www.youtube.com/watch?v=JoXHWPglelI)
+
 #### Flashing RaspberriPi Hard Disk / Install Required Software (Using Ubuntu Linux)
 
 Download "RASPBIAN JESSIE LITE"
