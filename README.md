@@ -1,6 +1,11 @@
 # Sunrise Alarm Clock
 Schedule your own personal sunrise, improves morning wakefulness
 
+Latest random invention, schedule your own sunrise!
+
+During the day, the blue light in sunlight boosts our attention, memory, energy levels, reaction times, and overall mood.
+Blue light suppresses the release of melatonin, for morning use only :)
+
 ![Finished](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/finished.png "Finished")
 
 [![Sunrise Alarm Clock](https://img.youtube.com/vi/JoXHWPglelI/0.jpg)](https://www.youtube.com/watch?v=JoXHWPglelI)
