@@ -190,7 +190,7 @@ Install the NeoPixel Driver as follows
 
 Using the .x3g files included in the "3D Print/" folder print the main control panel cover, which will house the slider, buttons, LED and 7 Segment display
 
-### Wiring the Components
+### Building the Lamp
 
 **Build Wood Frame**
 
@@ -226,6 +226,12 @@ Following the provided schematic, solder the chip wiring in place and connect to
 
 ![Mount Chip on the slider](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/mount-chip-slider.png "Mount Chip on the slider")
 
+### Wiring the Components
+
+Use the following Schematic to connect all the components to have the lamp work properly.
+
+![Schematic](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/schematic.png "Schematic")
+
 **Wire Panel**
 
 Connect all wiring to the components glued on the panel to connect to the raspberrypi.
@@ -255,10 +261,6 @@ Attach cut and painted plexi glass to the LED case with screws
 ![Mount on the Wall](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/mount-on-wall.jpg "Mount on the Wall")
 
 ![Mount on the Wall](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/mount-on-wall2.jpg "Mount on the Wall")
-
-## Print the Enclosure panels
-
-## Build the Solar Lamp
 
 ### Set pi user crontab 
 
