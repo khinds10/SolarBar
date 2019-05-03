@@ -269,8 +269,11 @@ Enter the following line for a minute by minute crontab
 `$ crontab -e`
 
 `0 3 * * * python /home/pi/SolarBar/Alarm.py > /dev/null 2>&1`
+
 `@reboot python /home/pi/SolarBar/Buttons.py > /dev/null 2>&1`
+
 `@reboot python /home/pi/SolarBar/ControlPanel.py > /dev/null 2>&1`
+
 `@reboot python /home/pi/SolarBar/Slider.py > /dev/null 2>&1`
 
 ### Set root user crontab (this library requires root access)
