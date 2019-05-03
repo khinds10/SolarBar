@@ -1,6 +1,8 @@
 # Sunrise Alarm Clock
 Schedule your own personal sunrise, improves morning wakefulness
 
+![Finished](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/finished.png "Finished")
+
 #### Flashing RaspberriPi Hard Disk / Install Required Software (Using Ubuntu Linux)
 
 Download "RASPBIAN JESSIE LITE"
@@ -10,17 +12,17 @@ https://www.raspberrypi.org/downloads/raspbian/
 >Insert the microSD to your computer via USB adapter and create the disk image using the `dd` command
 >
 > Locate your inserted microSD card via the `df -h` command, unmount it and create the disk image with the disk copy `dd` command
-> 
+>
 > $ `df -h`
 > */dev/sdb1       7.4G   32K  7.4G   1% /media/XXX/1234-5678*
 > a
 > $ `umount /dev/sdb1`
-> 
+>
 > **Caution: be sure the command is completely accurate, you can damage other disks with this command**
-> 
+>
 > *if=location of RASPBIAN JESSIE LITE image file*
 > *of=location of your microSD card*
-> 
+>
 > $ `sudo dd bs=4M if=/path/to/raspbian-jessie-lite.img of=/dev/sdb`
 > *(note: in this case, it's /dev/sdb, /dev/sdb1 was an existing factory partition on the microSD)*
 
@@ -147,31 +149,95 @@ Install the NeoPixel Driver as follows
 
 # Supplies Needed
 
-5V Power Supply
+**5V Power Supply**
+
 ![5V Power Supply](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/5VPowerSupply.png "5V Power Supply")
 
-I2C 7 SEGMENT
+**I2C 7 SEGMENT**
+
 ![I2C 7 SEGMENT](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/i2C7Segment.png "I2C 7 SEGMENT")
 
-Microchip MCP3008
+**Microchip MCP3008**
+
 ![Microchip MCP3008](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/MCP3008.png "Microchip MCP3008")
 
-Momentary Tactile Tact Push Button Switch [x5]
+**Momentary Tactile Tact Push Button Switch [x5]**
+
 ![Momentary Tactile Tact Push Button Switch](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/MomentaryPushButton.png "Momentary Tactile Tact Push Button Switch")
 
-PI ZERO W
+**PI ZERO W**
+
 ![PI ZERO W](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/PiZero.jpg "PI ZERO W")
 
-Logarithmic Slide Potentiometer
+**Logarithmic Slide Potentiometer**
+
 ![Logarithmic Slide Potentiometer](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/Potentiometer.jpg "Logarithmic Slide Potentiometer")
 
-WS2812B Individually Addressable RGB LED Strip [x4]
+**WS2812B Individually Addressable RGB LED Strip [x4]**
+
 ![WS2812B Individually Addressable RGB LED Strip](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/WS2812B.png "WS2812B Individually Addressable RGB LED Strip")
+
+**Thin Plexi Glass Sheet**
+
+![Plexi Glass](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/plexi-glass.png "Plexi Glass")
+
+**Frosted Spray Paint**
+
+![Frosted Spray Paint](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/frosted-paint.png "Frosted Spray Paint")
 
 ### Wiring the Components
 
+**Build Wood Frame**
 
+I've built a wooden frame for the LED strips to be enclosed in and painted it black.
 
+![Build Wood Frame](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/build-wood-frame.jpg "Build Wood Frame")
+
+**Paint Plexi Glass**
+
+With some frosted spray paint, paint the glass so that it defuses the light from the strips.
+
+![Paint Plexi Glass](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/paint-plexi-glass.jpg "Paint Plexi Glass")
+
+**Mount Strips**
+
+Using simple tape and the stickiness of the backside of the LED strips, mount the 4 strips to the wooden base
+
+![Mount Strips](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/mount-strips.jpg "Mount Strips")
+
+**Mount Buttons**
+
+![Mount Buttons](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/mount-buttons.jpg "Mount Buttons")
+
+**Mount Buttons on Panel**
+
+![Mount Buttons on Panel](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/mount-buttons-panel.jpg "Mount Buttons on Panel")
+
+**Mount Chip on the Slider**
+
+![Mount Chip on the slider](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/mount-chip-slider.png "Mount Chip on the slider")
+
+**Wire Panel**
+
+![Wire Panel](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/wire-panel.jpg "Wire Panel")
+
+**Wire Pi**
+
+![Wire Pi](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/wire-to-pi.jpg "Wire Pi")
+
+**Mount Panel**
+
+![Mount Panel](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/mount-panel.jpg "Mount Panel")
+
+**Apply Plexi Glass**
+
+![Apply Plexi Glass](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/apply-plexi-glass.jpg "Apply Plexi Glass")
+
+**Mount on the Wall**
+
+![Mount on the Wall](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/mount-on-wall.jpg "Mount on the Wall")
+
+![Mount on the Wall](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/mount-on-wall2.jpg "Mount on the Wall")
 
 ## Print the Enclosure panels
 
@@ -199,3 +265,7 @@ Set "on reboot" to run the candle python script forever
 `@reboot python /home/pi/SolarBar/LEDs.py > /dev/null 2>&1`
 
 # Finished!
+
+![Finished](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/finished.png "Finished")
+
+
