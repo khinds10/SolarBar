@@ -185,6 +185,11 @@ Install the NeoPixel Driver as follows
 
 ![Frosted Spray Paint](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/frosted-paint.png "Frosted Spray Paint")
 
+
+### 3D Print the Controller Panel
+
+Using the .x3g files included in the "3D Print/" folder print the main control panel cover, which will house the slider, buttons, LED and 7 Segment display
+
 ### Wiring the Components
 
 **Build Wood Frame**
@@ -207,6 +212,8 @@ Using simple tape and the stickiness of the backside of the LED strips, mount th
 
 **Mount Buttons**
 
+Mount the buttons and the yellow LED, I've used hot glue to hold the buttons and LED in place.
+
 ![Mount Buttons](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/mount-buttons.jpg "Mount Buttons")
 
 **Mount Buttons on Panel**
@@ -215,21 +222,31 @@ Using simple tape and the stickiness of the backside of the LED strips, mount th
 
 **Mount Chip on the Slider**
 
+Following the provided schematic, solder the chip wiring in place and connect to the logarithmic slider, glue the chip with solder connections to the back of the slider.
+
 ![Mount Chip on the slider](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/mount-chip-slider.png "Mount Chip on the slider")
 
 **Wire Panel**
+
+Connect all wiring to the components glued on the panel to connect to the raspberrypi.
 
 ![Wire Panel](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/wire-panel.jpg "Wire Panel")
 
 **Wire Pi**
 
+Finally attach the PiZero to the back board of the LED wooden case with tape or glue and then connect the wiring according the provided schematic.
+
 ![Wire Pi](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/wire-to-pi.jpg "Wire Pi")
 
 **Mount Panel**
 
+Fasten the control panel on the bottom of the LED case.
+
 ![Mount Panel](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/mount-panel.jpg "Mount Panel")
 
 **Apply Plexi Glass**
+
+Attach cut and painted plexi glass to the LED case with screws
 
 ![Apply Plexi Glass](https://raw.githubusercontent.com/khinds10/SolarBar/master/construction/build-images/apply-plexi-glass.jpg "Apply Plexi Glass")
 
