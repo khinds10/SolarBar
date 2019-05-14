@@ -21,7 +21,7 @@ timeStruct = (timeNow.year, timeNow.month, timeNow.day, alarmTime[0], alarmTime[
 alarmTimestamp = time.mktime(timeStruct)
 
 # how long the alarm will run for
-seconds = 60*1
+seconds = 60*30
 
 # if the alarm is set, then begin the sunrise at the designated time
 if isAlarmSet == "True":
