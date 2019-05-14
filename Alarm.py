@@ -4,6 +4,7 @@
 # License: GPL 2.0
 import time, commands, subprocess, re, json, sys, os, memcache, json, datetime
 import includes.data as data
+mc = memcache.Client(['127.0.0.1:11211'], debug=0)
 
 #-------------------------------------------------------------------------------------------------------------
 # cronjob runs this script at 4am sleep till alarm set time, then start the sunrise gradient illumination
@@ -31,6 +32,7 @@ if isAlarmSet == "True":
         
         # alarm is ringing, begin the gradient
         print "Alarm is ringing"
+        mc.set("INUSE", "INUSE")
         second = 0
         percent = 0
         data.saveLightOn('1')
@@ -39,9 +41,10 @@ if isAlarmSet == "True":
             second = second + 1
             percent = int(percentage(second, seconds))
             print "Sun is " + str(percent) + "% risen"
-            data.saveSliderPosition(str(percent * 5))
+            data.saveSliderPosition(str(percent))
             time.sleep(1)
 
         # wait another cycle of the seconds passing then turn off the light
         time.sleep(seconds)
         data.saveLightOn('0')
+        mc.set("INUSE", "")

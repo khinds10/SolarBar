@@ -12,6 +12,15 @@ mc = memcache.Client(['127.0.0.1:11211'], debug=0)
 # https://projects.raspberrypi.org/en/projects/physical-computing/15
 pot = MCP3008(0)
 while True:
+    
+    # check to make sure that the alarm isn't ringing
+    displayInUse = mc.get("INUSE")
+    if displayInUse == "INUSE":
+        print "alarm in use"
+        time.sleep(1)
+        continue
+    
+    # save current pot value to file for lamp to read
     print(pot.value)
     data.saveSliderPosition(str(int(pot.value * 100)))
     time.sleep(0.1)
